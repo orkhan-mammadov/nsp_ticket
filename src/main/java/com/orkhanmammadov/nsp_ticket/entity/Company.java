@@ -1,17 +1,17 @@
 package com.orkhanmammadov.nsp_ticket.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name = "company")
 public class Company {
 
@@ -34,5 +34,13 @@ public class Company {
 
     @Column(name = "note")
     private String note;
+
+    @OneToMany(mappedBy = "company",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Project> project;
+
+//    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private List<Employee> employees;
 
 }

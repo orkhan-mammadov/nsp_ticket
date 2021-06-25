@@ -26,7 +26,7 @@ public class Project {
     @Column(name = "short_name")
     private String shortName;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "fk_company")
     private Company company;
 

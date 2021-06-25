@@ -48,7 +48,7 @@ public class Employee {
     @JoinColumn(name = "fk_project")
     private Project project;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "fk_user")
     private User user;
 
