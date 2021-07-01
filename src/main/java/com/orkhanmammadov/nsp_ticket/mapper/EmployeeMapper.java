@@ -4,6 +4,7 @@ import com.orkhanmammadov.nsp_ticket.dao.CompanyRepository;
 import com.orkhanmammadov.nsp_ticket.dao.EmployeeRepository;
 import com.orkhanmammadov.nsp_ticket.dto.EmployeeDTO;
 import com.orkhanmammadov.nsp_ticket.entity.Employee;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -17,5 +18,8 @@ public interface EmployeeMapper{
             @Mapping(source = "user.id", target = "userId")}
     )
     EmployeeDTO toDto(Employee employee);
+
+    @InheritInverseConfiguration
+    Employee toModel(EmployeeDTO employeeDTO);
 
 }

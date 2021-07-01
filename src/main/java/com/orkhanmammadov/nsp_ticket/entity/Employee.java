@@ -40,11 +40,11 @@ public class Employee {
     @Column(name = "note")
     private String note;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "fk_company")
     private Company company;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "fk_project")
     private Project project;
 

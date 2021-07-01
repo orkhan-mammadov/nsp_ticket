@@ -4,32 +4,37 @@ import com.orkhanmammadov.nsp_ticket.dto.EmployeeDTO;
 import com.orkhanmammadov.nsp_ticket.mapper.EmployeeMapper;
 import com.orkhanmammadov.nsp_ticket.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/employee")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-    @Autowired
-    private EmployeeMapper employeeMapper;
-
-    @GetMapping("/employees")
-    public List<EmployeeDTO> getEmployees(){
-        return null;
+    @GetMapping("/{employeeId}")
+    public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable int employeeId){
+        return new ResponseEntity<>(employeeService.getEmployee(employeeId), HttpStatus.OK);
     }
 
-    @GetMapping("/employees/{employeeId}")
-    public EmployeeDTO getEmployee(@PathVariable int employeeId) {
-        return employeeMapper.toDto(employeeService.getEmployee(employeeId));
+    @GetMapping
+    public ResponseEntity<List<EmployeeDTO>> getEmployees(){
+        return new ResponseEntity<>(employeeService.getEmployees(),HttpStatus.OK);
     }
 
+    @DeleteMapping("/{employeeId}")
+    public ResponseEntity<Object> deleteEmployee(@PathVariable int employeeId){
+        return new ResponseEntity<>(employeeService.deleteEmployee(employeeId), HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<EmployeeDTO> updateEmployee(@RequestBody EmployeeDTO employeeDTO){
+        return new ResponseEntity<>(employeeService.updateEmployee(employeeDTO),HttpStatus.OK);
+    }
 
 }
