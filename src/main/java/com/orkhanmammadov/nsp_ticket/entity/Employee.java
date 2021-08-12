@@ -1,6 +1,7 @@
 package com.orkhanmammadov.nsp_ticket.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.orkhanmammadov.nsp_ticket.nsp_global.entity.GenericEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @ToString
 @Table(name = "employee")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Employee {
+public class Employee implements GenericEntity<Employee> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,17 +49,36 @@ public class Employee {
     @JoinColumn(name = "fk_project")
     private Project project;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_user")
     private User user;
 
-    public Employee(String name, String lastName, String fatherName, String email, String phone, String note) {
+    public Employee(String name, String lastName, String fatherName, String email, String phone) {
         this.name = name;
         this.lastName = lastName;
         this.fatherName = fatherName;
         this.email = email;
         this.phone = phone;
-        this.note = note;
     }
 
+    @Override
+    public void update(Employee source) {
+        this.id = source.getId();
+        this.name = source.getName();
+        this.lastName = source.getLastName();
+        this.fatherName = source.getFatherName();
+        this.email = source.getEmail();
+        this.phone = source.getPhone();
+        this.note = source.getNote();
+        this.company = source.getCompany();
+        this.project = source.getProject();
+    }
+
+
+    @Override
+    public Employee createNewInstance() {
+        Employee newInstance = new Employee();
+        newInstance.update(this);
+        return newInstance;
+    }
 }

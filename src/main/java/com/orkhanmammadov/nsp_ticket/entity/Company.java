@@ -1,6 +1,7 @@
 package com.orkhanmammadov.nsp_ticket.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.orkhanmammadov.nsp_ticket.nsp_global.entity.GenericEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Table(name = "company")
-public class Company {
+public class Company implements GenericEntity<Company> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,4 +44,20 @@ public class Company {
 //    @JsonIgnore
 //    private List<Employee> employees;
 
+    @Override
+    public void update(Company source) {
+        this.id = source.getId();
+        this.name = source.getName();
+        this.shortName = source.getShortName();
+        this.email = source.getEmail();
+        this.logo = source.getLogo();
+        this.note = source.getNote();
+    }
+
+    @Override
+    public Company createNewInstance() {
+        Company newInstance = new Company();
+        newInstance.update(this);
+        return newInstance;
+    }
 }

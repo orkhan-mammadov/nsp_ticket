@@ -1,5 +1,6 @@
 package com.orkhanmammadov.nsp_ticket.entity;
 
+import com.orkhanmammadov.nsp_ticket.nsp_global.entity.GenericEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "project")
-public class Project {
+public class Project implements GenericEntity<Project> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +27,23 @@ public class Project {
     @Column(name = "short_name")
     private String shortName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_company")
     private Company company;
 
+    @Override
+    public void update(Project source) {
+        this.id = source.getId();
+        this.name = source.getName();
+        this.shortName = source.getShortName();
+        this.company = source.getCompany();
+    }
+
+
+    @Override
+    public Project createNewInstance() {
+        Project newInstance = new Project();
+        newInstance.update(this);
+        return newInstance;
+    }
 }

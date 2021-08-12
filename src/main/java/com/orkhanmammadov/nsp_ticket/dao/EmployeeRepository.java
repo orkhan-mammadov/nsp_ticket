@@ -1,7 +1,9 @@
 package com.orkhanmammadov.nsp_ticket.dao;
 
 import com.orkhanmammadov.nsp_ticket.entity.Employee;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.orkhanmammadov.nsp_ticket.nsp_global.dao.GenericRepository;
+import org.springframework.stereotype.Repository;
 
-public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
+@Repository
+public interface EmployeeRepository extends GenericRepository<Employee> {
 }

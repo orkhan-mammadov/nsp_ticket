@@ -1,5 +1,6 @@
 package com.orkhanmammadov.nsp_ticket.entity;
 
+import com.orkhanmammadov.nsp_ticket.nsp_global.entity.GenericEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Table(name = "ticket")
-public class Ticket {
+public class Ticket implements GenericEntity<Ticket> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,5 +61,25 @@ public class Ticket {
         files.add(theFiles);
     }
 
+    @Override
+    public void update(Ticket source) {
+        this.id = source.getId();
+        this.dateTime = source.getDateTime();
+        this.title = source.getTitle();
+        this.content = source.getContent();
+        this.priority = source.getPriority();
+        this.status = source.getStatus();
+        this.dueDate = source.getDueDate();
+        this.company = source.getCompany();
+        this.project = source.getProject();
+        this.files = source.getFiles();
+    }
 
+
+    @Override
+    public Ticket createNewInstance() {
+        Ticket newInstance = new Ticket();
+        newInstance.update(this);
+        return newInstance;
+    }
 }

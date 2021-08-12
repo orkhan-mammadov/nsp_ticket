@@ -2,7 +2,9 @@ package com.orkhanmammadov.nsp_ticket.service;
 
 import com.orkhanmammadov.nsp_ticket.dao.EmployeeRepository;
 import com.orkhanmammadov.nsp_ticket.dto.EmployeeDTO;
+import com.orkhanmammadov.nsp_ticket.dto.EmployeeFormDTO;
 import com.orkhanmammadov.nsp_ticket.entity.Employee;
+import com.orkhanmammadov.nsp_ticket.entity.User;
 import com.orkhanmammadov.nsp_ticket.exception.ResourceNotFoundException;
 import com.orkhanmammadov.nsp_ticket.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +52,25 @@ public class EmployeeService {
        if(!employeeRepository.existsById(employeeDTO.getId()))
                 throw  new ResourceNotFoundException("Employee does not exist with id: "+employeeDTO.getId());
         return employeeMapper.toDto(employeeRepository.save(employeeMapper.toModel(employeeDTO)));
+    }
+
+    public void createEmployee(EmployeeFormDTO employeeFormDTO) {
+        Employee employee = new Employee(
+                employeeFormDTO.getFirstName(),
+                employeeFormDTO.getLastName(),
+                employeeFormDTO.getFatherName(),
+                employeeFormDTO.getPhone(),
+                employeeFormDTO.getEmail()
+        );
+        if(employeeFormDTO.getNote() != null)
+            employee.setNote(employeeFormDTO.getNote());
+        if(employeeFormDTO.getUserName()!=null)
+        {
+            User user = new User(employeeFormDTO.getUserName(),
+                    employeeFormDTO.getPassword());
+            employee.setUser(user);
+        }
+
+
     }
 }
